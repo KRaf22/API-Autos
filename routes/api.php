@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/autos",[AutoController::class,"Listar"]);
+Route::get("/autos",[AutoController::class,"ListarTodos"]);
