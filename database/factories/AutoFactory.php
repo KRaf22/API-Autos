@@ -19,8 +19,8 @@ class AutoFactory extends Factory
             'color' => $this->faker->safeColorName(),
             'puertas' => $this->faker->randomDigit(),
             'cilindrado' => $this->faker->randomDigit(),
-            'automatico' => $this->faker->numberBetween($min=0, $max=1),
-            'electrico' => $this->faker->numberBetween($min=0, $max=1)
+            'automatico' => $this->faker->boolean(),
+            'electrico' => $this->faker->boolean()
 
         ];
     }
