@@ -109,8 +109,8 @@ class AutoTest extends TestCase
             "color" => "rojo",
             "puertas" => 2,
             "cilindrado" => 16,
-            "automatico" => 1,
-            "electrico" => 1
+            "automatico" => true,
+            "electrico" => true
         ]);
 
         $response->assertStatus(200);
@@ -123,9 +123,36 @@ class AutoTest extends TestCase
             "color" => "rojo",
             "puertas" => 2,
             "cilindrado" => 16,
-            "automatico" => 1,
-            "electrico" => 1
+            "automatico" => true,
+            "electrico" => true
         ]);
 
     }
+
+    public function test_InsertarAuto(){
+
+        $response = $this->post('/api/autos',[
+            "marca" => "Volkswagen",
+            "modelo" => "Tipo 1",
+            "color" => "plateado",
+            "puertas" => 4,
+            "cilindrado" => 4,
+            "automatico" => false,
+            "electrico" => false
+        ]);
+
+        $response->assertStatus(201);
+
+        $response->assertJsonCount(10);
+
+        $this->assertDatabaseHas('autos', [
+            "marca" => 'Volkswagen',
+            "modelo" => 'Tipo 1',
+            "color" => "plateado",
+            "puertas" => 4,
+            "cilindrado" => 4,
+            "automatico" => false,
+            "electrico" => false
+        ]);
+    } 
 }
