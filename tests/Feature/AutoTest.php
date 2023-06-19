@@ -74,8 +74,58 @@ class AutoTest extends TestCase
     }
 
     public function test_EliminarUnoInexistente(){
+
         $response=$this->delete('/api/autos/232332');
 
         $response->assertStatus(404);
+    }
+
+    public function test_ModificarUnoInexistente(){
+
+        $response=$this->post('/api/autos/232332');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_ModificarUnoExistente(){
+
+        $estructura= [
+            "id",
+            "marca",
+            "modelo",
+            "color",
+            "puertas",
+            "cilindrado",
+            "automatico",
+            "electrico",
+            "created_at",
+            "updated_at",
+            "deleted_at"
+        ];
+
+        $response = $this->post('/api/autos/80',[
+            "marca" => "Ferrari",
+            "modelo" => "296 GTB",
+            "color" => "rojo",
+            "puertas" => 2,
+            "cilindrado" => 16,
+            "automatico" => 1,
+            "electrico" => 1
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure($estructura);
+
+        $response-> assertJsonFragment([
+            "marca" => "Ferrari",
+            "modelo" => "296 GTB",
+            "color" => "rojo",
+            "puertas" => 2,
+            "cilindrado" => 16,
+            "automatico" => 1,
+            "electrico" => 1
+        ]);
+
     }
 }
