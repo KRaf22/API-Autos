@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Auto;
 
 class AutoTest extends TestCase
 {
@@ -51,6 +52,30 @@ class AutoTest extends TestCase
         $response = $this->get('/api/autos/8752');
 
         $response->assertStatus(404);
-        
+
+    }
+
+    public function test_EliminarUnoExistente(){
+
+        $response=$this->delete('/api/autos/80');
+
+        $response->assertStatus(200);
+
+        $response->assertJsonFragment([
+            "mensaje" => "El auto con el id 80 ha sido eliminado correctamente"
+       ]);
+
+       $this->assertDatabaseMissing('autos', [
+        'id' => '80',
+        'deleted_at' => null
+       ]);
+
+       Auto::withTrashed()->where("id",80)->restore();
+    }
+
+    public function test_EliminarUnoInexistente(){
+        $response=$this->delete('/api/autos/232332');
+
+        $response->assertStatus(404);
     }
 }
